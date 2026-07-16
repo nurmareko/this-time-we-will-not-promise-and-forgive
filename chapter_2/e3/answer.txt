@@ -1,0 +1,18 @@
+What output will the following code produce?
+
+unsigned u = 10, u2 = 42;
+std::cout << u2 - u << std::endl;
+std::cout << u - u2 << std::endl;
+
+lets inspect it line by line
+
+1. the definition and initialization of the variables. they both an unsigned type.
+2. we have a subtraction here. because u2 is larger than u the behavior is as expected. we will get 32 printed.
+3. we have a problem here, because u is less than u2 and we use unsigned meaning we don't have negative number, then we will get a large positive number for the result. the actual result that we expected is -32 therefore we will get a large number with the same bits of a -32. assuming unsigned is 32 bit, we will have this bit representation:
+
+0000 0000 0000 0000 0000 0000 0000 1010
+0000 0000 0000 0000 0000 0000 0010 1010
+---------------------------------------- -
+1111 1111 1111 1111 1111 1111 1110 0000
+
+the resulting bit represent the number 4'294'967'264 in unsigned form
