@@ -68,6 +68,7 @@ different messages depending on whether the file exists. See Bash
 Conditional Expressions.
 
 answer:
+if [ -f $1 ]; then echo 'exist'; else echo 'not exist'; fi
 
 
 Save the script from the previous exercise to a file (e.g., check.sh).
@@ -76,6 +77,9 @@ chmod +x check.sh and try again. Why is this step necessary?
 (Hint: look at ls -l check.sh before and after the chmod.)
 
 answer:
+By default Unix-like OS treat newly created files as plain text, so if
+we want to make it into executable we need to add the executable
+permission by using the chmod +x
 
 
 What happens if you add -x to the set flags in a script? Try it with
