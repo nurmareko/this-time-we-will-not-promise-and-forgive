@@ -25,7 +25,7 @@ answer:
 variable, it will now expand it to its value and just print it as it is
 + double quotes will handle variable expansion and will subtitute
 variable with its value
-+ ANSI quotes is treated as special kind of single quotes, with 
++ ANSI quotes is treated as special kind of single quotes, with
 backslash-escaped characters is replaced as specified by the ANSI C
 standard.
 
@@ -37,7 +37,6 @@ and stderr to another. How would you redirect both to the same file?
 See Redirections.
 
 answer:
-
 # to each file
 ls /non /tmp > output.txt 2> error.txxt
 # same fle
@@ -86,6 +85,7 @@ What happens if you add -x to the set flags in a script? Try it with
 a simple script and observe the output. See The Set Builtin.
 
 answer:
+It will print every command on the script line by line, its good for debugging.
 
 
 Write a command that copies a file to a backup with today’s date in
@@ -93,4 +93,3 @@ the filename (e.g., notes.txt → notes_2026-01-12.txt).
 (Hint: $(date +%Y-%m-%d)). See Command Substitution.
 
 answer:
-
