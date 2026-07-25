@@ -21,7 +21,15 @@ $'ANSI quotes'? Write a command that echoes a string containing a
 literal $, a !, and a newline character. See Quoting.
 
 answer:
++ single quotes will preserve the literal value, meaning if we give it
+variable, it will now expand it to its value and just print it as it is
++ double quotes will handle variable expansion and will subtitute
+variable with its value
++ ANSI quotes is treated as special kind of single quotes, with 
+backslash-escaped characters is replaced as specified by the ANSI C
+standard.
 
+echo $'$ ! \n'
 
 The shell has three standard streams: stdin (0), stdout (1), and
 stderr (2). Run ls /nonexistent /tmp and redirect stdout to one file
@@ -30,6 +38,10 @@ See Redirections.
 
 answer:
 
+# to each file
+ls /non /tmp > output.txt 2> error.txxt
+# same fle
+ls /non /tmp &> both.txt
 
 $? holds the exit status of the last command (0 = success). && runs
 the next command only if the previous succeeded; || runs it only if
@@ -37,13 +49,17 @@ the previous failed. Write a one-liner that creates /tmp/mydir only
 if it doesn’t already exist. See Exit Status.
 
 answer:
-
+ls //tmp/mydir || mkdir /tmp/mydir
 
 Why does cd have to be built into the shell itself rather than a
 standalone program? (Hint: think about what a child process can and
 cannot affect in its parent.)
 
 answer:
+Because a child process cannot change the working directory of its
+parent process, meaning if cd were a standalone program, the OS would
+run it in a new child proccess, update that child's directory, and then
+end it, leaving the parent shell's directory completely unchagned.
 
 
 Write a script that takes a filename as an argument ($1) and checks
