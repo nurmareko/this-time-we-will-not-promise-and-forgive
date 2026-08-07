@@ -1,0 +1,28 @@
+ Determine the type of each of the following literals. Explain the differences among the literals in each of the four examples:
+(a) ’a’, L’a’, "a", L"a"
+(b) 10, 10u, 10L, 10uL, 012, 0xC
+(c) 3.14, 3.14f, 3.14L
+(d) 10, 10u, 10., 10e-2
+
+answer :
+’a’     is a character, which is 1 byte long.
+L’a’    is a `wchar_t` literal, which make it larger size than just a char
+"a"     is a string, which will always have the extra hidden terminating character.
+L"a"    is a wide string literal, which will use the wchar_t instead of a normal char.
+
+10      is an interger literal
+10u     is an unsigned interger literal
+10L     is a long integer literal
+10uL    is a unsigned long interger literal
+012     is a octal literal
+0xC     is a hex literal
+
+3.14    double precision float literal
+3.14f   single precision float literal
+3.14L   extended precision float literal
+
+
+10      integer
+10u     unsigned integer
+10.     double
+10e-2   double, meaning 10 to the power of -2
