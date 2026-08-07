@@ -1,0 +1,6 @@
+What, if any, are the differences between the following definitions:
+int month = 9, day = 7;
+int month = 09, day = 07;
+
+answer:
+  The later is using octal notation which is base 8, this will cause an error because the symbol '9' is not exist in octal notation. To say the diffrent is, the former use decimal notation (base 10), and the later use octal (base 8) notation.
