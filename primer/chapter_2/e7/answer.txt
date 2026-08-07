@@ -1,0 +1,9 @@
+ What values do these literals represent? What type does each have?
+(a) "Who goes with F\145rgus?\012"
+(b) 3.14e1L (c) 1024f (d) 3.14L
+
+answer:
+a   This is a string which contain an escape sequence character that represent 'e' and newline respectively.
+b   this is a good ol float, the 4 bytes one.
+c   also a good ol float
+d   this one is a double precision float

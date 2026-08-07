@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-    int month = 09, day = 07;
+    cout << "Who goes with F\145rgus?\012" << endl;
 
     return 0;
 }
