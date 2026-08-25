@@ -14,9 +14,16 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         $error_message = "User name and password are required";
     } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_message = "Email must have an at-sign (@)";
+    } else if (!check_password($password)) {
+        $error_message = "Incorrect password";
     }
 }
 
+function check_password($password) {
+    $salt = 'XyZzy12*_';
+    $stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';
+    return hash('md5', $salt.$password) === $stored_hash;
+}
 ?>
 
 <!----------------------------------------------------------------------------->
