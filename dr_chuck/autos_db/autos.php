@@ -6,6 +6,6 @@
 	<title>Drestayumna Nurmareko</title>
 </head>
 <body>
-    <p>index</p>
+    <p>autos app</p>
 </body>
 </html>
