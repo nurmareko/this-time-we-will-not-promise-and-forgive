@@ -6,6 +6,7 @@
 	<title>Drestayumna Nurmareko</title>
 </head>
 <body>
-    <p>index</p>
+    <h1>Welcome to Autos Database</h1>
+    <a href="login.php">Please Log In</a>
 </body>
 </html>
