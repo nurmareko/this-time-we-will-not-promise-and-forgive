@@ -17,9 +17,11 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         $error_message = "User name and password are required";
     } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_message = "Email must have an at-sign (@)";
-    } else if (!check_password($password)) {
+    } else if (!($check = check_password($password))) {
+        error_log("Login fail ".$_POST['email']." $check");
         $error_message = "Incorrect password";
     } else {
+        error_log("Login success ".$_POST['email']);
         die(header('location:autos.php?email=' . urlencode($email)));
     }
 }
