@@ -35,6 +35,7 @@ if (
     } else if (!(is_numeric($year) && is_numeric($mileage))) {
         $error_message = 'Mileage and year must be numeric';
     } else {
+        // TODO
         $success_message = "Record inserted";
     }
 
