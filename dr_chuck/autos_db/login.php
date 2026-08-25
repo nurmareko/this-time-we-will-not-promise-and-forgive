@@ -1,10 +1,13 @@
 <?php
 // DEBUG
-print_r($_REQUEST);
+// print_r($_REQUEST);
 // DEBUG
 
-
 $error_message = '';
+
+if (isset($_POST['cancel'])) {
+    die(header('location:index.php'));
+}
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
@@ -17,7 +20,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     } else if (!check_password($password)) {
         $error_message = "Incorrect password";
     } else {
-        die(header('location: autos.php?email=' . urlencode($email)));
+        die(header('location:autos.php?email=' . urlencode($email)));
     }
 }
 
