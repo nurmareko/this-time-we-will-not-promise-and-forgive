@@ -9,6 +9,7 @@ print_r($_REQUEST);
 $email = '';
 $error_message = '';
 $success_message = '';
+$automobiles = [];
 // Context
 
 if (isset($_GET['email'])) {
@@ -35,9 +36,33 @@ if (
     } else if (!(is_numeric($year) && is_numeric($mileage))) {
         $error_message = 'Mileage and year must be numeric';
     } else {
-        // TODO
-        $success_message = "Record inserted";
+        $data = [
+            'make' => $make,
+            'year' => $year,
+            'mileage' => $mileage
+        ];
+        $sql = '
+            INSERT INTO autos (make, year, mileage)
+            VALUES (:make, :year, :mileage)
+        ';
+        try {
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($data);
+            $success_message = 'Record inserted';
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            $error_message = 'Unable to insert record';
+        }
     }
+}
+
+try {
+    $stmt = $pdo->query('SELECT make, year, mileage FROM autos');
+    $automobiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    $error_message = 'Unable to load automobiles';
+}
 
 function display_message($message, $type) {
     if ($type === 'error') {
@@ -46,6 +71,19 @@ function display_message($message, $type) {
         echo("<p style=\"color: green;\">$message</p>");
     }
 }
+
+function display_automobiles($automobiles) {
+    echo('<ul>');
+
+    foreach ($automobiles as $automobile) {
+        $year = htmlentities($automobile['year']);
+        $make = htmlentities($automobile['make']);
+        $mileage = htmlentities($automobile['mileage']);
+
+        echo "<li>$year $make / $mileage</li>";
+    }
+
+    echo('</ul>');
 }
 
 ?>
@@ -86,5 +124,8 @@ function display_message($message, $type) {
         <input type="submit" value="Add">
         <input type="submit" name="logout" value="Logout">
     </form>
+
+    <h2>Automobiles</h2>
+    <?php display_automobiles($automobiles) ?>
 </body>
 </html>
