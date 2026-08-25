@@ -32,6 +32,10 @@ if (
 
     if ($make === '') {
         $error_message = 'Make is required';
+    } else if (!(is_numeric($year) && is_numeric($mileage))) {
+        $error_message = 'Mileage and year must be numeric';
+    } else {
+        $success_message = "Record inserted";
     }
 
 function display_message($message, $type) {
