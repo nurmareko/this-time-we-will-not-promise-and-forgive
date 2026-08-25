@@ -1,3 +1,26 @@
+<?php
+// DEBUG
+print_r($_REQUEST);
+// DEBUG
+
+
+$error_message = '';
+
+if (isset($_POST['email']) && isset($_POST['password'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if ($email == null || $password == null) {
+        $error_message = "User name and password are required";
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error_message = "Email must have an at-sign (@)";
+    }
+}
+
+?>
+
+<!----------------------------------------------------------------------------->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +30,10 @@
 </head>
 <body>
     <h1>Please Log In</h1>
+    <p style="color: red;"><?= $error_message ?></p>
     <form method="post">
         <label for="email">
-            Email <input type="email" name="email">
+            Email <input type="text" name="email">
         </label>
         <br>
         <label for="password">
