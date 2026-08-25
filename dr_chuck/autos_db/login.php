@@ -6,6 +6,18 @@
 	<title>Drestayumna Nurmareko</title>
 </head>
 <body>
-    <p>login</p>
+    <h1>Please Log In</h1>
+    <form method="post">
+        <label for="email">
+            Email <input type="email" name="email">
+        </label>
+        <br>
+        <label for="password">
+            Password <input type="password" name="password">
+        </label>
+        <br>
+        <input type="submit" value="Login">
+        <input type="submit" name="cancel" value="Cancel">
+    </form>
 </body>
 </html>
