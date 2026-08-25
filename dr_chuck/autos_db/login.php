@@ -16,6 +16,8 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         $error_message = "Email must have an at-sign (@)";
     } else if (!check_password($password)) {
         $error_message = "Incorrect password";
+    } else {
+        die(header('location: autos.php?email=' . urlencode($email)));
     }
 }
 
