@@ -2,7 +2,7 @@
 require_once 'pdo.php';
 
 // DEBUG
-print_r($_REQUEST);
+// print_r($_REQUEST);
 // DEBUG
 
 // Context
@@ -22,6 +22,7 @@ if (isset($_POST['logout'])) {
     die(header('location:index.php'));
 }
 
+// Saving data
 if (
     isset($_POST['make']) &&
     isset($_POST['year']) &&
@@ -56,6 +57,7 @@ if (
     }
 }
 
+// Retrieving data
 try {
     $stmt = $pdo->query('SELECT make, year, mileage FROM autos');
     $automobiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -64,12 +66,22 @@ try {
     $error_message = 'Unable to load automobiles';
 }
 
-function display_message($message, $type) {
-    if ($type === 'error') {
-        echo("<p style=\"color: red;\">$message</p>");
+function display_feedback_message() {
+    global $error_message;
+    global $success_message;
+
+    if ($error_message !== '') {
+        $message = $error_message;
+        $color = 'red';
+    } else if ($success_message !== '') {
+        $message = $success_message;
+        $color = 'green';
     } else {
-        echo("<p style=\"color: green;\">$message</p>");
+        return;
     }
+
+    $message = htmlentities($message);
+    echo "<p style=\"color: $color;\">$message</p>";
 }
 
 function display_automobiles($automobiles) {
@@ -99,15 +111,7 @@ function display_automobiles($automobiles) {
 </head>
 <body>
     <h1>Tracking Autos for <?= $email ?></h1>
-
-    <?php
-    if ($error_message !== '') {
-        display_message($error_message, 'error');
-    } else if ($success_message !== '') {
-        display_message($success_message, 'success');
-    }
-    ?>
-
+    <?php display_feedback_message() ?>
     <form method="post">
         <label for="make">
             Make <input type="text" name="make">
