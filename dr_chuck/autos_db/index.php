@@ -3,6 +3,10 @@ require_once 'pdo.php';
 session_start();
 
 function display_table() {
+    if (!isset($_SESSION['email'])) {
+        return;
+    }
+
     global $pdo;
 
     try {
