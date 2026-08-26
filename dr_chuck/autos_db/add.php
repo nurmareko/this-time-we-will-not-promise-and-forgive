@@ -7,11 +7,50 @@ if (!isset($_SESSION['email'])) {
     die('Not logged in');
 }
 
+$email = $_SESSION['email'];
+
 if (isset($_POST['cancel'])) {
     die(header('location:view.php'));
 }
 
-$email = $_SESSION['email'];
+// Saving data
+if (
+    isset($_POST['make']) &&
+    isset($_POST['year']) &&
+    isset($_POST['mileage'])
+) {
+    $make = $_POST['make'];
+    $year = $_POST['year'];
+    $mileage = $_POST['mileage'];
+
+    if ($make === '') {
+        $_SESSION['error_message'] = 'Make is required';
+        die(header('location:add.php'));
+    } else if (!(is_numeric($year) && is_numeric($mileage))) {
+        $_SESSION['error_message'] = 'Mileage and year must be numeric';
+        die(header('location:add.php'));
+    } else {
+        $data = [
+            'make' => $make,
+            'year' => $year,
+            'mileage' => $mileage
+        ];
+        $sql = '
+            INSERT INTO autos (make, year, mileage)
+            VALUES (:make, :year, :mileage)
+        ';
+        try {
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($data);
+            $_SESSION['success_message'] = 'Record inserted';
+            die(header('location:view.php'));
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            $_SESSION['error_message'] = 'Unable to insert record';
+            die(header('locatoin:add.php'));
+        }
+    }
+}
 
 function error_message() {
     if (isset($_SESSION['error_message'])) {
