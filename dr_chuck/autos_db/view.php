@@ -18,6 +18,9 @@ if (!isset($_SESSION['email'])) {
 	<title>Drestayumna Nurmareko</title>
 </head>
 <body>
-    <p>view page</p>
+    <h1>Tracking Autos for <?= $_SESSION['email'] ?></h1>
+    <a href="add.php">Add New</a>
+    |
+    <a href="logout.php">Logout</a>
 </body>
 </html>
