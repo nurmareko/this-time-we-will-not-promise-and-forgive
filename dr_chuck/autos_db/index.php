@@ -17,18 +17,18 @@ function automobiles_table() {
         die('Sorry, cannot retrieve data at the moment');
     }
 
-    if ($automobiles === false) {
+    if (empty($automobiles)) {
         echo('<p>no data found!</p>');
     } else {
         echo("<h2>Automobiles</h2>");
         echo("<table border='1'>");
-        echo("<tr><th>Year</th><th>Make</th><th>Mileage</th><th>Action</th></tr>");
+        echo("<tr><th>Year</th><th>Make</th><th>Model</th><th>Mileage</th><th>Action</th></tr>");
 
         foreach ($automobiles as $automobile) {
-            $auto_id = htmlentities($automobile['auto_id']);
+            $auto_id = htmlentities($automobile['autos_id']);
             $year = htmlentities($automobile['year']);
             $make = htmlentities($automobile['make']);
-            $model = htmlentities($automobiles['model']);
+            $model = htmlentities($automobile['model']);
             $mileage = htmlentities($automobile['mileage']);
 
             echo('<tr>');
