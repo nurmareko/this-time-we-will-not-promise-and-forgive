@@ -2,8 +2,8 @@
 session_start();
 
 // DEBUG
-print_r($_REQUEST);
-print_r($_SESSION);
+// print_r($_REQUEST);
+// print_r($_SESSION);
 // DEBUG
 
 if (isset($_POST['cancel'])) {
