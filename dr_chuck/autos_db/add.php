@@ -1,6 +1,7 @@
 <?php
-session_start();
 require_once 'pdo.php';
+require_once 'utils.php';
+session_start();
 
 $email = '';
 
@@ -58,15 +59,6 @@ if (
         }
     }
 }
-
-function error_message() {
-    if (isset($_SESSION['error_message'])) {
-        $error_message = $_SESSION['error_message'];
-        unset($_SESSION['error_message']);
-        echo "<p style=\"color: red;\">$error_message</p>";
-    }
-}
-
 ?>
 
 <!----------------------------------------------------------------------------->
