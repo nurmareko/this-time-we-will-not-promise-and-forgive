@@ -28,11 +28,13 @@ function automobiles_table() {
             $auto_id = htmlentities($automobile['auto_id']);
             $year = htmlentities($automobile['year']);
             $make = htmlentities($automobile['make']);
+            $model = htmlentities($automobiles['model']);
             $mileage = htmlentities($automobile['mileage']);
 
             echo('<tr>');
             echo("<td>$year</td>");
             echo("<td>$make</td>");
+            echo("<td>$model</td>");
             echo("<td>$mileage</td>");
             echo("<td><a href='edit.php?auto_id=$auto_id'>Edit</a> / "
                 . "<a href='delete.php?auto_id=$auto_id'>Delete</a></td>");

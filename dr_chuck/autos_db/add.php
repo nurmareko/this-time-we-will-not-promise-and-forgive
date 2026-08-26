@@ -17,15 +17,20 @@ if (isset($_POST['cancel'])) {
 // Saving data
 if (
     isset($_POST['make']) &&
+    isset($_POST['model']) &&
     isset($_POST['year']) &&
     isset($_POST['mileage'])
 ) {
     $make = $_POST['make'];
+    $model = $_POST['model'];
     $year = $_POST['year'];
     $mileage = $_POST['mileage'];
 
     if ($make === '') {
         $_SESSION['error_message'] = 'Make is required';
+        die(header('location:add.php'));
+    } else if ($model === '') {
+        $_SESSION['error_message'] = 'Model is required';
         die(header('location:add.php'));
     } else if (!(is_numeric($year) && is_numeric($mileage))) {
         $_SESSION['error_message'] = 'Mileage and year must be numeric';
@@ -33,12 +38,13 @@ if (
     } else {
         $data = [
             'make' => $make,
+            'model' => $model,
             'year' => $year,
             'mileage' => $mileage
         ];
         $sql = '
-            INSERT INTO autos (make, year, mileage)
-            VALUES (:make, :year, :mileage)
+            INSERT INTO autos (make, model, year, mileage)
+            VALUES (:make, :model, :year, :mileage)
         ';
         try {
             $stmt = $pdo->prepare($sql);
@@ -78,6 +84,10 @@ function error_message() {
     <form method="post">
         <label for="make">
             Make <input type="text" name="make">
+        </label>
+        <br>
+        <label for="model">
+            Model <input type="text" name="model">
         </label>
         <br>
         <label for="year">
