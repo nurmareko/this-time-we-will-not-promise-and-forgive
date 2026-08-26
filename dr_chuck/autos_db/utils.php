@@ -8,10 +8,10 @@ function error_message() {
 }
 
 function success_message() {
-    if (isset($_SESSION['error_message'])) {
-        $success_message = $_SESSION['error_message'];
+    if (isset($_SESSION['success_message'])) {
+        $success_message = $_SESSION['success_message'];
         echo("<p style=\"color: green;\">$success_message</p>");
-        unset($_SESSION['error_message']);
+        unset($_SESSION['success_message']);
     }
 }
 

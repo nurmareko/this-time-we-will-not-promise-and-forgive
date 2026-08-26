@@ -70,6 +70,7 @@ function page_content() {
 <body>
     <h1>Welcome to Autos Database</h1>
     <?php success_message() ?>
+    <?php error_message() ?>
     <?php page_content() ?>
 </body>
 </html>
