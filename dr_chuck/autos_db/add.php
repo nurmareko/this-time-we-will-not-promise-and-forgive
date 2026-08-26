@@ -11,7 +11,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 
 if (isset($_POST['cancel'])) {
-    die(header('location:view.php'));
+    die(header('location:index.php'));
 }
 
 // Saving data
@@ -44,7 +44,7 @@ if (
             $stmt = $pdo->prepare($sql);
             $stmt->execute($data);
             $_SESSION['success_message'] = 'Record inserted';
-            die(header('location:view.php'));
+            die(header('location:index.php'));
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['error_message'] = 'Unable to insert record';

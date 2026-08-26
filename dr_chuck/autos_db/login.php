@@ -24,7 +24,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     } else {
         error_log("Login success ".$email);
         $_SESSION['email'] = $email;
-        die(header('location:view.php'));
+        die(header('location:index.php'));
     }
 }
 

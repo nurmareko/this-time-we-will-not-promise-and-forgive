@@ -2,7 +2,7 @@
 require_once 'pdo.php';
 session_start();
 
-function display_table() {
+function automobiles_table() {
     if (!isset($_SESSION['email'])) {
         return;
     }
@@ -43,13 +43,21 @@ function display_table() {
     }
 }
 
-function display_page_content() {
-    display_table();
+function page_content() {
+    automobiles_table();
     if (!isset($_SESSION['email'])) {
         echo('<a href="login.php">Please Log In</a>');
     } else {
         echo('<a href="add.php">Add New Entry</a><br>');
         echo('<a href="logout.php">Logout</a>');
+    }
+}
+
+function flash_message() {
+    if (isset($_SESSION['success_message'])) {
+        $message = $_SESSION['success_message'];
+        unset($_SESSION['success_message']);
+        echo("<p style=\" color: green;\">$message</p>");
     }
 }
 ?>
@@ -65,6 +73,7 @@ function display_page_content() {
 </head>
 <body>
     <h1>Welcome to Autos Database</h1>
-    <?php display_page_content() ?>
+    <?php flash_message() ?>
+    <?php page_content() ?>
 </body>
 </html>
