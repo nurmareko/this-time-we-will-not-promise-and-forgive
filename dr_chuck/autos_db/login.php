@@ -19,11 +19,12 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error_message'] = "Email must have an at-sign (@)";
     } else if (!($check = check_password($password))) {
-        error_log("Login fail ".$_POST['email']." $check");
+        error_log("Login fail ". $email . " $check");
         $_SESSION['error_message'] = "Incorrect password";
     } else {
-        error_log("Login success ".$_POST['email']);
-        die(header('location:autos.php?email=' . urlencode($email)));
+        error_log("Login success ".$email);
+        $_SESSION['email'] = $email;
+        die(header('location:view.php'));
     }
 }
 
