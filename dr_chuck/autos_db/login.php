@@ -1,10 +1,6 @@
 <?php
+require_once 'utils.php';
 session_start();
-
-// DEBUG
-// print_r($_REQUEST);
-// print_r($_SESSION);
-// DEBUG
 
 if (isset($_POST['cancel'])) {
     die(header('location:index.php'));
@@ -27,20 +23,6 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         die(header('location:index.php'));
     }
 }
-
-function check_password($password) {
-    $salt = 'XyZzy12*_';
-    $stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';
-    return hash('md5', $salt.$password) === $stored_hash;
-}
-
-function flash_message() {
-    if (isset($_SESSION['error_message'])) {
-        $error_message = $_SESSION['error_message'];
-        echo("<p style=\"color: red;\">$error_message</p>");
-        unset($_SESSION['error_message']);
-    }
-}
 ?>
 
 <!----------------------------------------------------------------------------->
@@ -54,7 +36,7 @@ function flash_message() {
 </head>
 <body>
     <h1>Please Log In</h1>
-    <?php flash_message() ?>
+    <?php error_message() ?>
     <form method="post">
         <label for="email">
             Email <input type="text" name="email">

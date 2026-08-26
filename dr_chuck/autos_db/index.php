@@ -1,5 +1,6 @@
 <?php
 require_once 'pdo.php';
+require_once 'utils.php';
 session_start();
 
 function automobiles_table() {
@@ -55,13 +56,6 @@ function page_content() {
     }
 }
 
-function flash_message() {
-    if (isset($_SESSION['success_message'])) {
-        $message = $_SESSION['success_message'];
-        unset($_SESSION['success_message']);
-        echo("<p style=\" color: green;\">$message</p>");
-    }
-}
 ?>
 
 <!----------------------------------------------------------------------------->
@@ -75,7 +69,7 @@ function flash_message() {
 </head>
 <body>
     <h1>Welcome to Autos Database</h1>
-    <?php flash_message() ?>
+    <?php success_message() ?>
     <?php page_content() ?>
 </body>
 </html>
