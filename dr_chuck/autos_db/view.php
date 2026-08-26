@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'pdo.php';
 
 $email = '';
 
@@ -8,6 +9,30 @@ if (!isset($_SESSION['email'])) {
 }
 
 $email = $_SESSION['email'];
+
+// Retrieving data
+try {
+    $stmt = $pdo->query('SELECT * FROM autos');
+    $automobiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    echo('Unable to load automobiles');
+}
+
+function display_automobiles($automobiles) {
+    echo('<h2>Automobiles</h2>');
+    echo('<ul>');
+
+    foreach ($automobiles as $automobile) {
+        $year = htmlentities($automobile['year']);
+        $make = htmlentities($automobile['make']);
+        $mileage = htmlentities($automobile['mileage']);
+
+        echo "<li>$year $make / $mileage</li>";
+    }
+
+    echo('</ul>');
+}
 
 ?>
 
@@ -25,5 +50,6 @@ $email = $_SESSION['email'];
     <a href="add.php">Add New</a>
     |
     <a href="logout.php">Logout</a>
+    <?php display_automobiles($automobiles) ?>
 </body>
 </html>
