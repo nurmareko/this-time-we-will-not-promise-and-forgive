@@ -1,10 +1,16 @@
 <?php
+require_once 'pdo.php';
 
 $logged_in = isset($_SESSION['user_id']);
 $profiles = [];
-$name = '';
-$headline = '';
-$user_id = '';
+
+try {
+    $stmt = $pdo->query('SELECT * FROM Profile');
+    $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    die('sorry we cant connect to our database at the moment');
+}
 
 ?>
 
@@ -35,11 +41,11 @@ $user_id = '';
             </tr>
             <?php foreach ($profiles as $profile): ?>
                 <tr>
-                    <td><?= $name ?></td>
-                    <td><?= $headline ?></td>
+                    <td><?= htmlentities($profile['name']) ?></td>
+                    <td><?= htmlentities($profile['headline'])  ?></td>
                     <td>
-                        <a href=<?= "edit.php?user_id=?" . $user_id ?>>Edit</a>
-                        <a href=<?= "delete.php?user_id=?" . $user_id ?>>Delete</a>
+                        <a href=<?= "edit.php?user_id=?" . $profile['user_id'] ?>>Edit</a>
+                        <a href=<?= "delete.php?user_id=?" . $$profile['user_id'] ?>>Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
