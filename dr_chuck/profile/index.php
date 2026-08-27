@@ -1,5 +1,6 @@
 <?php
 require_once 'pdo.php';
+require_once 'utils.php';
 session_start();
 
 $logged_in = isset($_SESSION['user_id']);
@@ -24,6 +25,8 @@ try {
 </head>
 <body>
     <h1>Resume Registry</h1>
+    <?php success_message() ?>
+    <?php error_message() ?>
 
     <?php if ($logged_in): ?>
         <a href="logout.php">Logout</a>

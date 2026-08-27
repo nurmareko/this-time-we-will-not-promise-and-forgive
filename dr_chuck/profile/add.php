@@ -27,8 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $summary === ''
     ) {
         $_SESSION['error_message'] = 'All fields are required';
+        header('Location: add.php');
+        exit;
     } else if (strpos($email, '@') === false) {
         $_SESSION['error_message'] = 'Email address must contain @';
+        header('Location: add.php');
+        exit;
     } else {
         $sql = 'INSERT INTO Profile
                     (user_id, first_name, last_name, email, headline, summary)
@@ -51,6 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['error_message'] = 'Unable to add profile';
+            header('Location: add.php');
+            exit;
         }
     }
 }
