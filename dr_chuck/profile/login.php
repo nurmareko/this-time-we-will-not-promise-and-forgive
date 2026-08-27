@@ -50,16 +50,34 @@ function check_password($email, $password) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>4070ffb0</title>
+    <script>
+        function doValidate() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('pass').value;
+
+            if (email === '' || password === '') {
+                alert('Both fields must be filled out');
+                return false;
+            }
+
+            if (!email.includes('@')) {
+                alert('Invalid email address');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
     <p>Please Log In</p>
     <?php error_message() ?>
     <form method="post">
-        <label for="email">Email <input type="email" name="email"></label>
+        <label for="email">Email <input type="email" id="email" name="email"></label>
         <br>
-        <label for="pass">Password <input type="password" name="pass"></label>
+        <label for="pass">Password <input type="password" id="pass" name="pass"></label>
         <br>
-        <input type="submit" value="Login">
+        <input type="submit" onclick="return doValidate();" value="Log In">
         <input type="submit" name="cancel" value="Cancel">
     </form>
 </body>
