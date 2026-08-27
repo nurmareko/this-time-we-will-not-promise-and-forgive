@@ -42,11 +42,14 @@ try {
             </tr>
             <?php foreach ($profiles as $profile): ?>
                 <tr>
-                    <td><?= htmlentities($profile['name']) ?></td>
+                    <td><?= htmlentities($profile['first_name'] . ' ' . $profile['last_name']) ?></td>
                     <td><?= htmlentities($profile['headline'])  ?></td>
                     <td>
-                        <a href=<?= "edit.php?user_id=?" . $profile['user_id'] ?>>Edit</a>
-                        <a href=<?= "delete.php?user_id=?" . $$profile['user_id'] ?>>Delete</a>
+                        <p>
+                        <a href=<?= "edit.php?profile_id=?" . $profile['profile_id'] ?>>Edit</a>
+                        /
+                        <a href=<?= "delete.php?profile_id=?" . $profile['profile_id'] ?>>Delete</a>
+                        </p>
                     </td>
                 </tr>
             <?php endforeach; ?>
