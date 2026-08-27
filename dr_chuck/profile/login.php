@@ -42,7 +42,7 @@ function check_password($user_id, $password) {
         return false;
     }
 
-    return hash('md5', $salt . $password) === $user['password'];;
+    return hash('md5', $salt . $password) === $user['password'];
 }
 ?>
 
