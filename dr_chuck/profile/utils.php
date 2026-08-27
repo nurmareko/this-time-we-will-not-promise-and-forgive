@@ -14,11 +14,4 @@ function success_message() {
         unset($_SESSION['success_message']);
     }
 }
-
-function check_password($password) {
-    $salt = 'XyZzy12*_';
-    $stored_hash = '1a52e17fa899cf40fb04cfc42e6352f1';
-    return hash('md5', $salt.$password) === $stored_hash;
-}
-
 ?>
