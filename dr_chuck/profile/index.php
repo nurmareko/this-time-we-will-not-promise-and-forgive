@@ -1,6 +1,10 @@
 <?php
 
 $logged_in = isset($_SESSION['user_id']);
+$profiles = [];
+$name = '';
+$headline = '';
+$user_id = '';
 
 ?>
 
@@ -20,7 +24,27 @@ $logged_in = isset($_SESSION['user_id']);
         <a href="login.php">Please log in</a>
     <?php endif; ?>
 
-    <p>table</p>
+    <?php if (empty($profiles)): ?>
+        <p>no data to show</p>
+    <?php else: ?>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Headline</th>
+                <th>Action</th>
+            </tr>
+            <?php foreach ($profiles as $profile): ?>
+                <tr>
+                    <td><?= $name ?></td>
+                    <td><?= $headline ?></td>
+                    <td>
+                        <a href=<?= "edit.php?user_id=?" . $user_id ?>>Edit</a>
+                        <a href=<?= "delete.php?user_id=?" . $user_id ?>>Delete</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
 
     <?php if ($logged_in): ?>
         <a href="add.php">Add New Entry</a>
