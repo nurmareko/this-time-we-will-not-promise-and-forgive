@@ -7,32 +7,30 @@ if (isset($_POST['cancel'])) {
     die(header('location:index.php'));
 }
 
-if (isset($_POST['email']) && isset($_POST['password'])) {
+if (isset($_POST['email']) && isset($_POST['pass'])) {
     $email = $_POST['email'];
-    $password = $_POST['password'];
-    $user_id = $_SESSION['user_id'];
+    $password = $_POST['pass'];
 
     if ($email == null || $password == null) {
         $_SESSION['error_message'] = "User name and password are required";
     } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error_message'] = "Email must have an at-sign (@)";
-    } else if (!($check = check_password($user_id, $password))) {
-        error_log("Login fail ". $email . " $check");
+    } else if (!($user_id = check_password($email, $password))) {
         $_SESSION['error_message'] = "Incorrect password";
     } else {
-        error_log("Login success ".$email);
-        $_SESSION['email'] = $email;
+        $_SESSION['user_id'] = $user_id;
         die(header('location:index.php'));
     }
 }
 
-function check_password($user_id, $password) {
+function check_password($email, $password) {
+    global $pdo;
     $salt = 'XyZzy12*_';
 
     try {
-        $stmt = $pdo->prepare('SELECT * FROM Users WHERE user_id = :user_id');
-        $stmt->execute(['user_id' => $user_id]);
-        $user = stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
+        $stmt->execute(['email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         error_log($e->getMessage());
         die('sorry we cant connect to our database at the moment');
@@ -42,7 +40,7 @@ function check_password($user_id, $password) {
         return false;
     }
 
-    return hash('md5', $salt . $password) === $user['password'];
+    return hash('md5', $salt . $password) === $user['password'] ?? $user['user_id'];
 }
 ?>
 
