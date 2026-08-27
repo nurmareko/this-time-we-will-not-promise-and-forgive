@@ -46,9 +46,9 @@ try {
                     <td><?= htmlentities($profile['headline'])  ?></td>
                     <td>
                         <p>
-                        <a href=<?= "edit.php?profile_id=?" . $profile['profile_id'] ?>>Edit</a>
+                        <a href="<?= 'edit.php?profile_id=' . $profile['profile_id'] ?>">Edit</a>
                         /
-                        <a href=<?= "delete.php?profile_id=?" . $profile['profile_id'] ?>>Delete</a>
+                        <a href="<?= 'delete.php?profile_id=' . $profile['profile_id'] ?>">Delete</a>
                         </p>
                     </td>
                 </tr>
