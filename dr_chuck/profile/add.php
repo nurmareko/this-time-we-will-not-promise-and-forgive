@@ -222,7 +222,14 @@ $(document).ready(function () {
           $('#' + educationId).remove()
       }))
 
+      const row2 = $('<p>').text('School: ')
+      row2.append($('<input>'), {
+        type: 'text',
+        name: 'school'
+      })
+
       educationField.append(row)
+      educationField.append(row2)
 
       $('#educationFields').append(educationField);
     })
