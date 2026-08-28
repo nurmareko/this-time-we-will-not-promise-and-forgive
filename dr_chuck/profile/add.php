@@ -151,6 +151,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea id="summary" name="summary" rows="8" cols="80"><?= htmlentities($summary) ?></textarea>
         </p>
         <p>
+            Education: <input type="button" id="addEducation" value="+">
+        </p>
+        <div id="educationFields"></div>
+        <p>
             Position: <input id="addPosition" type="button" value="+">
         </p>
         <div id="positionFields"></div>
@@ -161,7 +165,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <script>
 $(document).ready(function () {
-    var positionCount = 0;
+    var positionCount = 0
+    var educationCount = 0
 
     $('#addPosition').click(function () {
         if (positionCount >= 9) {
@@ -191,7 +196,21 @@ $(document).ready(function () {
             cols: 80
         }));
         $('#positionFields').append(position);
-    });
+    })
+
+    $('#addEducation').click(() => {
+      if (educationCount >= 9) {
+          alert('Maximum of nine education entries exceeded')
+          return;
+      }
+      educationCount++
+
+      const educationId = 'education' + educationCount
+      const educationField = $('<div>').attr('id', educationId)
+      educationField.innerHTML = "xxx"
+
+      $('#educationFields').append(educationField);
+    })
 });
 </script>
 </body>
