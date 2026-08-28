@@ -1,5 +1,6 @@
 <?php
 require_once 'pdo.php';
+require_once 'utils.php';
 
 $profile_id = $_GET['profile_id'] ?? null;
 
@@ -18,12 +19,8 @@ try {
         die('Bad value for profile_id');
     }
 
-    $stmt = $pdo->prepare('SELECT year, description
-        FROM Position
-        WHERE profile_id = :profile_id
-        ORDER BY rank');
-    $stmt->execute(['profile_id' => $profile_id]);
-    $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $positions = loadPositions($pdo, $profile_id);
+    $education = loadEducation($pdo, $profile_id);
 } catch (PDOException $e) {
     error_log($e->getMessage());
     die('Unable to load profile');
@@ -60,6 +57,18 @@ try {
         Summary:<br>
         <?= nl2br(htmlentities($profile['summary'])) ?>
     </p>
+
+    <?php if (!empty($education)): ?>
+        <p>Education:</p>
+        <ul>
+            <?php foreach ($education as $entry): ?>
+                <li>
+                    <?= htmlentities($entry['year']) ?>:
+                    <?= htmlentities($entry['name']) ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
 
     <?php if (!empty($positions)): ?>
         <p>Positions:</p>
