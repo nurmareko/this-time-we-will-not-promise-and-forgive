@@ -1,15 +1,87 @@
+<?php
+require_once 'pdo.php';
+
+$profile_id = $_GET['profile_id'] ?? null;
+
+if ($profile_id === null) {
+    die('Missing profile_id');
+}
+
+try {
+    $stmt = $pdo->prepare('SELECT first_name, last_name, email, headline, summary
+        FROM Profile
+        WHERE profile_id = :profile_id');
+    $stmt->execute(['profile_id' => $profile_id]);
+    $profile = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($profile === false) {
+        die('Bad value for profile_id');
+    }
+
+    $stmt = $pdo->prepare('SELECT year, description
+        FROM Position
+        WHERE profile_id = :profile_id
+        ORDER BY rank');
+    $stmt->execute(['profile_id' => $profile_id]);
+    $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    die('Unable to load profile');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>4070ffb0</title>
-	<script
-        src="https://code.jquery.com/jquery-4.0.0.slim.min.js"
-        integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc="
-        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4070ffb0</title>
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+        integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+        crossorigin="anonymous">
 </head>
 <body>
-    <p>view page</p>
+<div class="container">
+    <h1>Profile information</h1>
+    <p>
+        First Name:
+        <?= htmlentities($profile['first_name']) ?>
+    </p>
+    <p>
+        Last Name:
+        <?= htmlentities($profile['last_name']) ?>
+    </p>
+    <p>
+        Email:
+        <?= htmlentities($profile['email']) ?>
+    </p>
+    <p>
+        Headline:<br>
+        <?= htmlentities($profile['headline']) ?>
+    </p>
+    <p>
+        Summary:<br>
+        <?= nl2br(htmlentities($profile['summary'])) ?>
+    </p>
+
+    <?php if (!empty($positions)): ?>
+        <p>Positions:</p>
+        <ul>
+            <?php foreach ($positions as $position): ?>
+                <li>
+                    <?= htmlentities($position['year']) ?>:
+                    <?= htmlentities($position['description']) ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <p><a href="index.php">Done</a></p>
+</div>
 </body>
 </html>

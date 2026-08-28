@@ -45,13 +45,17 @@ try {
             </tr>
             <?php foreach ($profiles as $profile): ?>
                 <tr>
-                    <td><?= htmlentities($profile['first_name'] . ' ' . $profile['last_name']) ?></td>
+                    <td>
+                        <a href=<?= "view.php?profile_id=" . $profile['profile_id'] ?>>
+                            <?= htmlentities($profile['first_name'] . ' ' . $profile['last_name']) ?>
+                        </a>
+                    </td>
                     <td><?= htmlentities($profile['headline'])  ?></td>
                     <td>
                         <p>
-                        <a href="<?= 'edit.php?profile_id=' . $profile['profile_id'] ?>">Edit</a>
+                        <a href=<?= 'edit.php?profile_id=' . $profile['profile_id'] ?>>Edit</a>
                         /
-                        <a href="<?= 'delete.php?profile_id=' . $profile['profile_id'] ?>">Delete</a>
+                        <a href=<?= 'delete.php?profile_id=' . $profile['profile_id'] ?>>Delete</a>
                         </p>
                     </td>
                 </tr>
