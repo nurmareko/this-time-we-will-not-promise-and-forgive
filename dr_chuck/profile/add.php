@@ -120,10 +120,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4070ffb0</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script
         src="https://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <div class="container">
@@ -209,10 +211,10 @@ $(document).ready(function () {
       const educationField = $('<div>').attr('id', educationId)
 
       const row = $('<p>').text('Year: ')
-      row.append($('<input>'), {
+      row.append($('<input>', {
           type: 'text',
           name: 'eduYear' + educationCount
-      })
+      }))
       row.append(' ')
 
       row.append($('<input>', {
@@ -223,16 +225,23 @@ $(document).ready(function () {
       }))
 
       const row2 = $('<p>').text('School: ')
-      row2.append($('<input>'), {
+      const schoolInput = $('<input>', {
         type: 'text',
-        name: 'school'
+        name: 'eduSchool' + educationCount,
+        class: 'school'
       })
+      row2.append(schoolInput)
 
       educationField.append(row)
       educationField.append(row2)
 
-      $('#educationFields').append(educationField);
+      $('#educationFields').append(educationField)
+
+      schoolInput.autocomplete({
+          source: 'school.php'
+      })
     })
+
 });
 </script>
 </body>
