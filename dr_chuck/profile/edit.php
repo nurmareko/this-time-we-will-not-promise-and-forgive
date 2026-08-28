@@ -37,20 +37,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $headline = $_POST['headline'] ?? '';
     $summary = $_POST['summary'] ?? '';
-    $position_validation = validatePositions();
+    $positions = postedPositions();
+    $education = postedEducation();
+    $position_validation = validatePositions($positions);
+    $education_validation = validateEducation($education);
 
     if (
-        $first_name === '' ||
-        $last_name === '' ||
-        $email === '' ||
-        $headline === '' ||
-        $summary === ''
+        trim($first_name) === '' ||
+        trim($last_name) === '' ||
+        trim($email) === '' ||
+        trim($headline) === '' ||
+        trim($summary) === ''
     ) {
         $_SESSION['error_message'] = 'All fields are required';
     } else if (strpos($email, '@') === false) {
         $_SESSION['error_message'] = 'Email address must contain @';
     } else if ($position_validation !== true) {
         $_SESSION['error_message'] = $position_validation;
+    } else if ($education_validation !== true) {
+        $_SESSION['error_message'] = $education_validation;
     } else {
         try {
             $pdo->beginTransaction();
@@ -73,25 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $pdo->prepare('DELETE FROM Position WHERE profile_id = :profile_id');
             $stmt->execute(['profile_id' => $profile_id]);
+            $stmt = $pdo->prepare('DELETE FROM Education WHERE profile_id = :profile_id');
+            $stmt->execute(['profile_id' => $profile_id]);
 
-            $position_stmt = $pdo->prepare('INSERT INTO Position
-                (profile_id, rank, year, description)
-                VALUES (:profile_id, :rank, :year, :description)');
-            $rank = 1;
-
-            for ($i = 1; $i <= 9; $i++) {
-                if (!isset($_POST['year' . $i], $_POST['desc' . $i])) {
-                    continue;
-                }
-
-                $position_stmt->execute([
-                    'profile_id' => $profile_id,
-                    'rank' => $rank,
-                    'year' => $_POST['year' . $i],
-                    'description' => $_POST['desc' . $i]
-                ]);
-                $rank++;
-            }
+            insertPositions($pdo, $profile_id, $positions);
+            insertEducation($pdo, $profile_id, $education);
 
             $pdo->commit();
             $_SESSION['success_message'] = 'Profile updated';
@@ -117,41 +108,11 @@ $headline = $profile['headline'];
 $summary = $profile['summary'];
 
 try {
-    $stmt = $pdo->prepare('SELECT year, description
-        FROM Position
-        WHERE profile_id = :profile_id
-        ORDER BY rank');
-    $stmt->execute(['profile_id' => $profile_id]);
-    $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $positions = loadPositions($pdo, $profile_id);
+    $education = loadEducation($pdo, $profile_id);
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    die('Unable to load positions');
-}
-
-function validatePositions() {
-    for ($i = 1; $i <= 9; $i++) {
-        $has_year = isset($_POST['year' . $i]);
-        $has_description = isset($_POST['desc' . $i]);
-
-        if (!$has_year && !$has_description) {
-            continue;
-        }
-
-        if (
-            !$has_year ||
-            !$has_description ||
-            trim($_POST['year' . $i]) === '' ||
-            trim($_POST['desc' . $i]) === ''
-        ) {
-            return 'All fields are required';
-        }
-
-        if (!is_numeric($_POST['year' . $i])) {
-            return 'Year must be numeric';
-        }
-    }
-
-    return true;
+    die('Unable to load profile details');
 }
 ?>
 
@@ -161,9 +122,14 @@ function validatePositions() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4070ffb0</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <script
         src="https://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+    <script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
         crossorigin="anonymous"></script>
 </head>
 <body>
@@ -192,6 +158,34 @@ function validatePositions() {
             <label for="summary">Summary:</label>
             <textarea id="summary" name="summary" rows="8" cols="80"><?= htmlentities($summary) ?></textarea>
         </p>
+        <p>
+            Education: <input id="addEducation" type="button" value="+">
+        </p>
+        <div id="educationFields">
+            <?php foreach ($education as $index => $entry): ?>
+                <?php $education_number = $index + 1; ?>
+                <div id="education<?= $education_number ?>">
+                    <p>
+                        Year:
+                        <input type="text"
+                            name="edu_year<?= $education_number ?>"
+                            value="<?= htmlentities($entry['year']) ?>">
+                        <input type="button"
+                            class="removeEducation"
+                            data-education-id="education<?= $education_number ?>"
+                            value="-">
+                    </p>
+                    <p>
+                        School:
+                        <input type="text"
+                            size="80"
+                            name="edu_school<?= $education_number ?>"
+                            class="school"
+                            value="<?= htmlentities($entry['name']) ?>">
+                    </p>
+                </div>
+            <?php endforeach; ?>
+        </div>
         <p>
             Position: <input id="addPosition" type="button" value="+">
         </p>
@@ -223,42 +217,96 @@ function validatePositions() {
 
 <script>
 $(document).ready(function () {
-    var positionCount = <?= count($positions) ?>;
+    var positionNext = <?= count($positions) ?>
+    var positionCount = positionNext
+    var educationNext = <?= count($education) ?>
+    var educationCount = educationNext
+
+    $('.school').autocomplete({
+        source: 'school.php'
+    })
 
     $('#positionFields').on('click', '.removePosition', function () {
-        $('#' + $(this).data('position-id')).remove();
-    });
+        $('#' + $(this).data('position-id')).remove()
+        positionCount--
+    })
+
+    $('#educationFields').on('click', '.removeEducation', function () {
+        $('#' + $(this).data('education-id')).remove()
+        educationCount--
+    })
 
     $('#addPosition').click(function () {
         if (positionCount >= 9) {
-            alert('Maximum of nine position entries exceeded');
-            return;
+            alert('Maximum of nine position entries exceeded')
+            return
         }
 
-        positionCount++;
-        var positionId = 'position' + positionCount;
-        var position = $('<div>').attr('id', positionId);
-        var row = $('<p>').text('Year: ');
+        positionNext++
+        positionCount++
+        var positionId = 'position' + positionNext
+        var position = $('<div>').attr('id', positionId)
+        var row = $('<p>').text('Year: ')
         row.append($('<input>', {
             type: 'text',
-            name: 'year' + positionCount
-        }));
-        row.append(' ');
+            name: 'year' + positionNext
+        }))
+        row.append(' ')
         row.append($('<input>', {
             type: 'button',
             class: 'removePosition',
             'data-position-id': positionId,
             value: '-'
-        }));
-        position.append(row);
+        }))
+        position.append(row)
         position.append($('<textarea>', {
-            name: 'desc' + positionCount,
+            name: 'desc' + positionNext,
             rows: 8,
             cols: 80
-        }));
-        $('#positionFields').append(position);
-    });
-});
+        }))
+        $('#positionFields').append(position)
+    })
+
+    $('#addEducation').click(function () {
+        if (educationCount >= 9) {
+            alert('Maximum of nine education entries exceeded')
+            return
+        }
+
+        educationNext++
+        educationCount++
+        var educationId = 'education' + educationNext
+        var educationField = $('<div>').attr('id', educationId)
+        var yearRow = $('<p>').text('Year: ')
+        yearRow.append($('<input>', {
+            type: 'text',
+            name: 'edu_year' + educationNext
+        }))
+        yearRow.append(' ')
+        yearRow.append($('<input>', {
+            type: 'button',
+            class: 'removeEducation',
+            'data-education-id': educationId,
+            value: '-'
+        }))
+
+        var schoolRow = $('<p>').text('School: ')
+        var schoolInput = $('<input>', {
+            type: 'text',
+            size: 80,
+            name: 'edu_school' + educationNext,
+            class: 'school'
+        })
+        schoolRow.append(schoolInput)
+        educationField.append(yearRow)
+        educationField.append(schoolRow)
+        $('#educationFields').append(educationField)
+
+        schoolInput.autocomplete({
+            source: 'school.php'
+        })
+    })
+})
 </script>
 </body>
 </html>
