@@ -215,6 +215,13 @@ $(document).ready(function () {
       })
       row.append(' ')
 
+      row.append($('<input>', {
+          type: 'button',
+          value: '-'
+      }).click(() => {
+          $('#' + educationId).remove()
+      }))
+
       educationField.append(row)
 
       $('#educationFields').append(educationField);
