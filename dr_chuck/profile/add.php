@@ -207,7 +207,15 @@ $(document).ready(function () {
 
       const educationId = 'education' + educationCount
       const educationField = $('<div>').attr('id', educationId)
-      educationField.innerHTML = "xxx"
+
+      const row = $('<p>').text('Year: ')
+      row.append($('<input>'), {
+          type: 'text',
+          name: 'eduYear' + educationCount
+      })
+      row.append(' ')
+
+      educationField.append(row)
 
       $('#educationFields').append(educationField);
     })
