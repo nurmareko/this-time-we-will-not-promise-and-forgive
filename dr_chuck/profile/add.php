@@ -18,34 +18,11 @@ $email = $_POST['email'] ?? '';
 $headline = $_POST['headline'] ?? '';
 $summary = $_POST['summary'] ?? '';
 
-function validatePositions() {
-    for ($i = 1; $i <= 9; $i++) {
-        $has_year = isset($_POST['year' . $i]);
-        $has_description = isset($_POST['desc' . $i]);
-
-        if (!$has_year && !$has_description) {
-            continue;
-        }
-
-        if (
-            !$has_year ||
-            !$has_description ||
-            trim($_POST['year' . $i]) === '' ||
-            trim($_POST['desc' . $i]) === ''
-        ) {
-            return 'All fields are required';
-        }
-
-        if (!is_numeric($_POST['year' . $i])) {
-            return 'Year must be numeric';
-        }
-    }
-
-    return true;
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $position_validation = validatePositions();
+    $positions = postedPositions();
+    $education = postedEducation();
+    $position_validation = validatePositions($positions);
+    $education_validation = validateEducation($education);
 
     if (
         trim($first_name) === '' ||
@@ -59,6 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error_message'] = 'Email address must contain @';
     } else if ($position_validation !== true) {
         $_SESSION['error_message'] = $position_validation;
+    } else if ($education_validation !== true) {
+        $_SESSION['error_message'] = $education_validation;
     } else {
         try {
             $pdo->beginTransaction();
@@ -77,24 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             $profile_id = $pdo->lastInsertId();
-            $position_stmt = $pdo->prepare('INSERT INTO Position
-                (profile_id, rank, year, description)
-                VALUES (:profile_id, :rank, :year, :description)');
-            $rank = 1;
-
-            for ($i = 1; $i <= 9; $i++) {
-                if (!isset($_POST['year' . $i], $_POST['desc' . $i])) {
-                    continue;
-                }
-
-                $position_stmt->execute([
-                    'profile_id' => $profile_id,
-                    'rank' => $rank,
-                    'year' => $_POST['year' . $i],
-                    'description' => $_POST['desc' . $i]
-                ]);
-                $rank++;
-            }
+            insertPositions($pdo, $profile_id, $positions);
+            insertEducation($pdo, $profile_id, $education);
 
             $pdo->commit();
             $_SESSION['success_message'] = 'Profile added';
@@ -168,7 +131,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script>
 $(document).ready(function () {
     var positionCount = 0
+    var positionNext = 0
     var educationCount = 0
+    var educationNext = 0
 
     $('#addPosition').click(function () {
         if (positionCount >= 9) {
@@ -177,12 +142,13 @@ $(document).ready(function () {
         }
 
         positionCount++;
-        var positionId = 'position' + positionCount;
+        positionNext++;
+        var positionId = 'position' + positionNext;
         var position = $('<div>').attr('id', positionId);
         var row = $('<p>').text('Year: ');
         row.append($('<input>', {
             type: 'text',
-            name: 'year' + positionCount
+            name: 'year' + positionNext
         }));
         row.append(' ');
         row.append($('<input>', {
@@ -190,10 +156,11 @@ $(document).ready(function () {
             value: '-'
         }).click(function () {
             $('#' + positionId).remove();
+            positionCount--;
         }));
         position.append(row);
         position.append($('<textarea>', {
-            name: 'desc' + positionCount,
+            name: 'desc' + positionNext,
             rows: 8,
             cols: 80
         }));
@@ -206,14 +173,15 @@ $(document).ready(function () {
           return;
       }
       educationCount++
+      educationNext++
 
-      const educationId = 'education' + educationCount
+      const educationId = 'education' + educationNext
       const educationField = $('<div>').attr('id', educationId)
 
       const row = $('<p>').text('Year: ')
       row.append($('<input>', {
           type: 'text',
-          name: 'eduYear' + educationCount
+          name: 'edu_year' + educationNext
       }))
       row.append(' ')
 
@@ -222,12 +190,14 @@ $(document).ready(function () {
           value: '-'
       }).click(() => {
           $('#' + educationId).remove()
+          educationCount--
       }))
 
       const row2 = $('<p>').text('School: ')
       const schoolInput = $('<input>', {
         type: 'text',
-        name: 'eduSchool' + educationCount,
+        size: 80,
+        name: 'edu_school' + educationNext,
         class: 'school'
       })
       row2.append(schoolInput)
