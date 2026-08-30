@@ -1,0 +1,12 @@
+Exercise 2.9: Explain the following definitions. For those that are illegal, explain
+what’s wrong and how to correct it.
+(a) std::cin >> int input_value;
+(b) int i = { 3.14 };
+(c) double salary = wage = 9999.99;
+(d) int i = 3.14;
+
+answer:
+(a) This is one simply syntactically wrong, cin expect a variable that should be declared before.
+(b) This one will cause an error because assigning value with the curly brace doesn't work when there is loss of value.
+(c) In this expresion, the variable wage is never declared. so its wrong.
+(d) Now this one is legal. the decimal value will be truncate to 3.
