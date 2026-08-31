@@ -1,0 +1,13 @@
+Exercise 2.12: Which, if any, of the following names are invalid?
+(a) int double = 3.14;
+(b) int _;
+(c) int catch-22;
+(d) int 1_or_2 = 1;
+(e) double Double = 3.14;
+
+answer:
+(a) this is invalid, double is a reserved identifier.
+(b) weird as it is, but this is valid.
+(c) this is invalid, because hyphene is not a valid character for identifier.
+(d) this is invalid, identifier cannot start with number.
+(e) this one is fair enough, it is valid.
