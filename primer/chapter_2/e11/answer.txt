@@ -1,0 +1,9 @@
+Exercise 2.11: Explain whether each of the following is a declaration or a definition:
+(a) extern int ix = 1024;
+(b) int iy;
+(c) extern int iz;
+
+answer:
+(a) This is a definition, although the extern keyword is used for declaration, providing explicit initializer overrides extern and forced it to be definition.
+(b) This is a good-ol definition, this expression allocate memory.
+(c) this is a declaration, this expression does not allocate memory.
