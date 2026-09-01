@@ -4,7 +4,8 @@ require_once 'utils.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    die('ACCESS DENIED');
+    header('Location: error.php?type=access');
+    exit;
 }
 
 if (isset($_POST['cancel'])) {

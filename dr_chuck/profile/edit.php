@@ -4,7 +4,8 @@ require_once 'utils.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    die('ACCESS DENIED');
+    header('Location: error.php?type=access');
+    exit;
 }
 
 if (isset($_POST['cancel'])) {
@@ -15,7 +16,8 @@ if (isset($_POST['cancel'])) {
 $profile_id = $_POST['profile_id'] ?? $_GET['profile_id'] ?? null;
 
 if ($profile_id === null) {
-    die('Missing profile_id');
+    header('Location: error.php?type=missing');
+    exit;
 }
 
 try {
@@ -24,11 +26,13 @@ try {
     $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    die('Unable to load profile');
+    header('Location: error.php?type=database');
+    exit;
 }
 
 if ($profile === false) {
-    die('Bad value for profile_id');
+    header('Location: error.php?type=not-found');
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -112,7 +116,8 @@ try {
     $education = loadEducation($pdo, $profile_id);
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    die('Unable to load profile details');
+    header('Location: error.php?type=database');
+    exit;
 }
 ?>
 

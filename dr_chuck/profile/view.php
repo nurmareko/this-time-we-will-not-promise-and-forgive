@@ -5,7 +5,8 @@ require_once 'utils.php';
 $profile_id = $_GET['profile_id'] ?? null;
 
 if ($profile_id === null) {
-    die('Missing profile_id');
+    header('Location: error.php?type=missing');
+    exit;
 }
 
 try {
@@ -16,14 +17,16 @@ try {
     $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($profile === false) {
-        die('Bad value for profile_id');
+        header('Location: error.php?type=not-found');
+        exit;
     }
 
     $positions = loadPositions($pdo, $profile_id);
     $education = loadEducation($pdo, $profile_id);
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    die('Unable to load profile');
+    header('Location: error.php?type=database');
+    exit;
 }
 ?>
 

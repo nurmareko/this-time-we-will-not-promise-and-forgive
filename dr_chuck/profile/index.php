@@ -11,7 +11,8 @@ try {
     $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    die('sorry we cant connect to our database at the moment');
+    header('Location: error.php?type=database');
+    exit;
 }
 
 ?>

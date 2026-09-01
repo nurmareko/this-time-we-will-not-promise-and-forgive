@@ -8,7 +8,8 @@
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         error_log($e->getMessage());
-        die('sorry we cant connect to our database at the moment');
+        header('Location: error.php?type=database');
+        exit;
     }
 
 
