@@ -1,26 +1,122 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: sans-serif;
-    color: #222;
-    background: #fff;
     margin: 0;
     padding: 20px;
+    background: #f3f0e8;
+    color: #222222;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
 }
 
 .page {
-    max-width: 700px;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #999999;
+    border-top: 5px solid #2457a6;
+    background: white;
+    box-shadow: 4px 4px 0 #cccccc;
 }
 
-h1 {
-    font-size: 20px;
+h1,
+p {
     margin: 0;
 }
 
+h1 {
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #aaaaaa;
+    color: #2457a6;
+}
+
 a {
-    color: #333;
+    color: #2457a6;
+}
+
+a:hover {
+    color: #aa0000;
+}
+
+.topbar,
+.form-actions,
+.footer-actions,
+.row-actions,
+.entry-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.field,
+.detail-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.field label,
+.detail-row .label {
+    width: 120px;
+    font-weight: bold;
+}
+
+input,
+textarea,
+button {
+    padding: 6px;
+    border: 1px solid #888888;
+    font: inherit;
+}
+
+input[type="submit"],
+input[type="button"],
+button {
+    background: #e5e9f2;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover {
+    background: #fff2a8;
+}
+
+.field input,
+.field textarea {
+    flex: 1;
+    min-width: 0;
+}
+
+textarea {
+    max-width: 100%;
+    resize: vertical;
+}
+
+.entry-group,
+.entry-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    background: #fafafa;
+}
+
+.label {
+    font-weight: bold;
 }
 
 table {
@@ -28,39 +124,18 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
+    padding: 8px;
+    border: 1px solid #999999;
     text-align: left;
-    padding: 6px;
-    border-bottom: 1px solid #ddd;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+th {
+    background: #e5e9f2;
+    color: #173b73;
 }
 
-.field, .entry-block {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.topbar, .footer-actions, .row-actions, .form-actions, .entry-row, .detail-row {
-    display: flex;
-    gap: 10px;
-}
-
-.topbar, .footer-actions {
-    justify-content: flex-end;
-}
-
-input, textarea {
-    font-family: inherit;
-    padding: 5px;
-}
-
-.detail-row .label {
-    min-width: 100px;
-    color: #666;
+.notice {
+    color: #aa0000;
 }
