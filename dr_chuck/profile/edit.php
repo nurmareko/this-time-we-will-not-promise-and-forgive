@@ -228,10 +228,10 @@ try {
 
 <script>
 $(document).ready(function () {
-    var positionNext = <?= count($positions) ?>
-    var positionCount = positionNext
-    var educationNext = <?= count($education) ?>
-    var educationCount = educationNext
+    var positionNext = <?= count($positions) ?>;
+    var positionCount = positionNext;
+    var educationNext = <?= count($education) ?>;
+    var educationCount = educationNext;
 
     $('.school').autocomplete({
         source: 'school.php'
