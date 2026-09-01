@@ -32,57 +32,65 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>4070ffb0</title>
 </head>
 <body>
-<div class="container">
+<div class="page">
     <h1>Profile information</h1>
-    <p>
-        First Name:
-        <?= htmlentities($profile['first_name']) ?>
-    </p>
-    <p>
-        Last Name:
-        <?= htmlentities($profile['last_name']) ?>
-    </p>
-    <p>
-        Email:
-        <?= htmlentities($profile['email']) ?>
-    </p>
-    <p>
-        Headline:<br>
-        <?= htmlentities($profile['headline']) ?>
-    </p>
-    <p>
-        Summary:<br>
-        <?= nl2br(htmlentities($profile['summary'])) ?>
-    </p>
+
+    <div class="detail-row">
+        <span class="label">First Name</span>
+        <span><?= htmlentities($profile['first_name']) ?></span>
+    </div>
+    <div class="detail-row">
+        <span class="label">Last Name</span>
+        <span><?= htmlentities($profile['last_name']) ?></span>
+    </div>
+    <div class="detail-row">
+        <span class="label">Email</span>
+        <span><?= htmlentities($profile['email']) ?></span>
+    </div>
+    <div class="detail-row">
+        <span class="label">Headline</span>
+        <span><?= htmlentities($profile['headline']) ?></span>
+    </div>
+    <div class="detail-row">
+        <span class="label">Summary</span>
+        <span><?= nl2br(htmlentities($profile['summary'])) ?></span>
+    </div>
 
     <?php if (!empty($education)): ?>
-        <p>Education:</p>
-        <ul>
-            <?php foreach ($education as $entry): ?>
-                <li>
-                    <?= htmlentities($entry['year']) ?>:
-                    <?= htmlentities($entry['name']) ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <div>
+            <p><strong>Education</strong></p>
+            <ul>
+                <?php foreach ($education as $entry): ?>
+                    <li>
+                        <?= htmlentities($entry['year']) ?>:
+                        <?= htmlentities($entry['name']) ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     <?php endif; ?>
 
     <?php if (!empty($positions)): ?>
-        <p>Positions:</p>
-        <ul>
-            <?php foreach ($positions as $position): ?>
-                <li>
-                    <?= htmlentities($position['year']) ?>:
-                    <?= htmlentities($position['description']) ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <div>
+            <p><strong>Positions</strong></p>
+            <ul>
+                <?php foreach ($positions as $position): ?>
+                    <li>
+                        <?= htmlentities($position['year']) ?>:
+                        <?= htmlentities($position['description']) ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     <?php endif; ?>
 
-    <p><a href="index.php">Done</a></p>
+    <div class="footer-actions">
+        <a href="index.php">Done</a>
+    </div>
 </div>
 </body>
 </html>

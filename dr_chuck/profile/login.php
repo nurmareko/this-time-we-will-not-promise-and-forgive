@@ -49,6 +49,7 @@ function check_password($email, $password) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
 	<title>4070ffb0</title>
     <script>
         function doValidate() {
@@ -70,15 +71,25 @@ function check_password($email, $password) {
     </script>
 </head>
 <body>
-    <p>Please Log In</p>
-    <?php error_message() ?>
+<div class="page">
+    <h1>Please Log In</h1>
+    <div class="notice">
+        <?php error_message() ?>
+    </div>
     <form method="post">
-        <label for="email">Email <input type="email" id="email" name="email"></label>
-        <br>
-        <label for="pass">Password <input type="password" id="pass" name="pass"></label>
-        <br>
-        <input type="submit" onclick="return doValidate();" value="Log In">
-        <input type="submit" name="cancel" value="Cancel">
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <div class="field">
+            <label for="pass">Password</label>
+            <input type="password" id="pass" name="pass">
+        </div>
+        <div class="form-actions">
+            <input type="submit" onclick="return doValidate();" value="Log In">
+            <input type="submit" name="cancel" value="Cancel">
+        </div>
     </form>
+</div>
 </body>
 </html>

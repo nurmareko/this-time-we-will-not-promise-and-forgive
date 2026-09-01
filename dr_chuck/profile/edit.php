@@ -121,8 +121,9 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4070ffb0</title>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+    <title>4070ffb0</title>
     <script
         src="https://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
@@ -133,85 +134,95 @@ try {
         crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container">
+<div class="page">
     <h1>Editing Profile</h1>
-    <?php error_message() ?>
+    <div class="notice">
+        <?php error_message() ?>
+    </div>
     <form method="post">
         <input type="hidden" name="profile_id" value="<?= htmlentities($profile_id) ?>">
-        <p>
-            <label for="first_name">First Name:</label>
+        <div class="field">
+            <label for="first_name">First Name</label>
             <input type="text" id="first_name" name="first_name" value="<?= htmlentities($first_name) ?>">
-        </p>
-        <p>
-            <label for="last_name">Last Name:</label>
+        </div>
+        <div class="field">
+            <label for="last_name">Last Name</label>
             <input type="text" id="last_name" name="last_name" value="<?= htmlentities($last_name) ?>">
-        </p>
-        <p>
-            <label for="email">Email:</label>
+        </div>
+        <div class="field">
+            <label for="email">Email</label>
             <input type="text" id="email" name="email" value="<?= htmlentities($email) ?>">
-        </p>
-        <p>
-            <label for="headline">Headline:</label>
+        </div>
+        <div class="field">
+            <label for="headline">Headline</label>
             <input type="text" id="headline" name="headline" value="<?= htmlentities($headline) ?>">
-        </p>
-        <p>
-            <label for="summary">Summary:</label>
+        </div>
+        <div class="field">
+            <label for="summary">Summary</label>
             <textarea id="summary" name="summary" rows="8" cols="80"><?= htmlentities($summary) ?></textarea>
-        </p>
-        <p>
-            Education: <input id="addEducation" type="button" value="+">
-        </p>
-        <div id="educationFields">
-            <?php foreach ($education as $index => $entry): ?>
-                <?php $education_number = $index + 1; ?>
-                <div id="education<?= $education_number ?>">
-                    <p>
-                        Year:
-                        <input type="text"
-                            name="edu_year<?= $education_number ?>"
-                            value="<?= htmlentities($entry['year']) ?>">
-                        <input type="button"
-                            class="removeEducation"
-                            data-education-id="education<?= $education_number ?>"
-                            value="-">
-                    </p>
-                    <p>
-                        School:
-                        <input type="text"
-                            size="80"
-                            name="edu_school<?= $education_number ?>"
-                            class="school"
-                            value="<?= htmlentities($entry['name']) ?>">
-                    </p>
-                </div>
-            <?php endforeach; ?>
         </div>
-        <p>
-            Position: <input id="addPosition" type="button" value="+">
-        </p>
-        <div id="positionFields">
-            <?php foreach ($positions as $index => $position): ?>
-                <?php $position_number = $index + 1; ?>
-                <div id="position<?= $position_number ?>">
-                    <p>
-                        Year:
-                        <input type="text"
-                            name="year<?= $position_number ?>"
-                            value="<?= htmlentities($position['year']) ?>">
-                        <input type="button"
-                            class="removePosition"
-                            data-position-id="position<?= $position_number ?>"
-                            value="-">
-                    </p>
-                    <textarea
-                        name="desc<?= $position_number ?>"
-                        rows="8"
-                        cols="80"><?= htmlentities($position['description']) ?></textarea>
-                </div>
-            <?php endforeach; ?>
+        <div class="entry-group">
+            <div class="entry-row">
+                <span class="label">Education</span>
+                <input id="addEducation" type="button" value="+">
+            </div>
+            <div id="educationFields">
+                <?php foreach ($education as $index => $entry): ?>
+                    <?php $education_number = $index + 1; ?>
+                    <div id="education<?= $education_number ?>" class="entry-block">
+                        <div class="entry-row">
+                            Year:
+                            <input type="text"
+                                name="edu_year<?= $education_number ?>"
+                                value="<?= htmlentities($entry['year']) ?>">
+                            <input type="button"
+                                class="removeEducation"
+                                data-education-id="education<?= $education_number ?>"
+                                value="-">
+                        </div>
+                        <div class="entry-row">
+                            School:
+                            <input type="text"
+                                size="80"
+                                name="edu_school<?= $education_number ?>"
+                                class="school"
+                                value="<?= htmlentities($entry['name']) ?>">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
-        <input type="submit" value="Save">
-        <input type="submit" name="cancel" value="Cancel">
+        <div class="entry-group">
+            <div class="entry-row">
+                <span class="label">Position</span>
+                <input id="addPosition" type="button" value="+">
+            </div>
+            <div id="positionFields">
+                <?php foreach ($positions as $index => $position): ?>
+                    <?php $position_number = $index + 1; ?>
+                    <div id="position<?= $position_number ?>" class="entry-block">
+                        <div class="entry-row">
+                            Year:
+                            <input type="text"
+                                name="year<?= $position_number ?>"
+                                value="<?= htmlentities($position['year']) ?>">
+                            <input type="button"
+                                class="removePosition"
+                                data-position-id="position<?= $position_number ?>"
+                                value="-">
+                        </div>
+                        <textarea
+                            name="desc<?= $position_number ?>"
+                            rows="8"
+                            cols="80"><?= htmlentities($position['description']) ?></textarea>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div class="form-actions">
+            <input type="submit" value="Save">
+            <input type="submit" name="cancel" value="Cancel">
+        </div>
     </form>
 </div>
 
@@ -245,8 +256,8 @@ $(document).ready(function () {
         positionNext++
         positionCount++
         var positionId = 'position' + positionNext
-        var position = $('<div>').attr('id', positionId)
-        var row = $('<p>').text('Year: ')
+        var position = $('<div>').attr('id', positionId).addClass('entry-block')
+        var row = $('<div>').addClass('entry-row').text('Year: ')
         row.append($('<input>', {
             type: 'text',
             name: 'year' + positionNext
@@ -276,8 +287,8 @@ $(document).ready(function () {
         educationNext++
         educationCount++
         var educationId = 'education' + educationNext
-        var educationField = $('<div>').attr('id', educationId)
-        var yearRow = $('<p>').text('Year: ')
+        var educationField = $('<div>').attr('id', educationId).addClass('entry-block')
+        var yearRow = $('<div>').addClass('entry-row').text('Year: ')
         yearRow.append($('<input>', {
             type: 'text',
             name: 'edu_year' + educationNext
@@ -290,7 +301,7 @@ $(document).ready(function () {
             value: '-'
         }))
 
-        var schoolRow = $('<p>').text('School: ')
+        var schoolRow = $('<div>').addClass('entry-row').text('School: ')
         var schoolInput = $('<input>', {
             type: 'text',
             size: 80,

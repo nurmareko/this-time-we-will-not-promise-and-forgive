@@ -54,21 +54,30 @@ if (isset($_POST['delete'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>4070ffb0</title>
 </head>
 <body>
+<div class="page">
     <h1>Deleting Profile</h1>
-    <?php error_message() ?>
-    <p>
-        First Name: <?= htmlentities($profile['first_name']) ?>
-    </p>
-    <p>
-        Last Name: <?= htmlentities($profile['last_name']) ?>
-    </p>
+    <div class="notice">
+        <?php error_message() ?>
+    </div>
+    <div class="detail-row">
+        <span class="label">First Name</span>
+        <span><?= htmlentities($profile['first_name']) ?></span>
+    </div>
+    <div class="detail-row">
+        <span class="label">Last Name</span>
+        <span><?= htmlentities($profile['last_name']) ?></span>
+    </div>
     <form method="post">
         <input type="hidden" name="profile_id" value="<?= htmlentities($profile_id) ?>">
-        <input type="submit" name="delete" value="Delete">
-        <input type="submit" name="cancel" value="Cancel">
+        <div class="form-actions">
+            <input type="submit" name="delete" value="Delete">
+            <input type="submit" name="cancel" value="Cancel">
+        </div>
     </form>
+</div>
 </body>
 </html>

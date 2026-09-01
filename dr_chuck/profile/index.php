@@ -21,18 +21,25 @@ try {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
 	<title>4070ffb0</title>
 </head>
 <body>
+<div class="page">
     <h1>Resume Registry</h1>
-    <?php success_message() ?>
-    <?php error_message() ?>
 
-    <?php if ($logged_in): ?>
-        <a href="logout.php">Logout</a>
-    <?php else: ?>
-        <a href="login.php">Please log in</a>
-    <?php endif; ?>
+    <div class="notice">
+        <?php success_message() ?>
+        <?php error_message() ?>
+    </div>
+
+    <div class="topbar">
+        <?php if ($logged_in): ?>
+            <a href="logout.php">Logout</a>
+        <?php else: ?>
+            <a href="login.php">Please log in</a>
+        <?php endif; ?>
+    </div>
 
     <?php if (empty($profiles)): ?>
         <p>no data to show</p>
@@ -52,11 +59,10 @@ try {
                     </td>
                     <td><?= htmlentities($profile['headline'])  ?></td>
                     <td>
-                        <p>
+                        <div class="row-actions">
                         <a href=<?= 'edit.php?profile_id=' . $profile['profile_id'] ?>>Edit</a>
-                        /
                         <a href=<?= 'delete.php?profile_id=' . $profile['profile_id'] ?>>Delete</a>
-                        </p>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -64,6 +70,10 @@ try {
     <?php endif; ?>
 
     <?php if ($logged_in): ?>
-        <a href="add.php">Add New Entry</a>
+        <div class="footer-actions">
+            <a href="add.php">Add New Entry</a>
+        </div>
     <?php endif; ?>
+</div>
+</body>
 </html>
