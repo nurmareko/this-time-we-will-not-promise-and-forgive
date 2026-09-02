@@ -4,10 +4,10 @@ using namespace std;
 
 int main()
 {
-    // std::cin >> int input_value;
-    // int i = { 3.14 };
-    // double salary = wage = 9999.99;
-    int i = 3.14;
+    int i = 100, sum = 0;
+    for (int i = 0; i != 10; ++i)
+        sum += i;
+    std::cout << i << " " << sum << std::endl;
 
     return 0;
 }
