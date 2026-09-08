@@ -1,0 +1,8 @@
+What does the following program do?
+
+int i = 42;
+int *p1 = &i;
+*p1 = *p1 * *p1;
+
+answer:
+  First it create an integer object i of value 42, the its create a pointer to it (p1), then we reassigning the value of i using the pointer p1 with the value of 42 times 42, Which same as we are squaring the value of i.
