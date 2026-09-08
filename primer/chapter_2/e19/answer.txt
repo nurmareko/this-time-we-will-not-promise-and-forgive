@@ -1,0 +1,4 @@
+ Explain the key differences between pointers and references
+
+ answer:
+   pointer is an object, reference is not an object, meaning pointer have its own address on memory where as reference is an alias to an object. Think about pointer as a object that point to the address of its pointee, where refernce point straight to the object its refencing, not the address of the object. We can also re-assign pointer value.
