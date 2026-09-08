@@ -1,0 +1,12 @@
+Explain each of the following definitions. Indicate whether any are illegal and, if so, why.
+
+int i = 0;
+
+(a) double* dp = &i;
+(b) int *ip = i;
+(c) int *p = &i;
+
+answer:
+(a) This is illegal, we cannot point to an object with type of interger with a pointer of type double bruh.
+(b) This is invalid, ip will not point to i, becasue we are assign it with the vaue of i not the address.
+(c) This is text book valid.
