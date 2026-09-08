@@ -1,0 +1,11 @@
+Which of the following definitions, if any, are invalid? Why?
+(a) int ival = 1.01;
+(b) int &rval1 = 1.01;
+(c) int &rval2 = ival;
+(d) int &rval3;
+
+answer:
+(a) This is valid, but assigning floating point value literal to a variable of type int is loss of knowledge, therefore the value of ival wil be 1.
+(b) This is invalid. rval1 is a reference, becuase a reference is not an object of any kind, therefore we cannot assign a literal value to it.
+(c) This is valid, rval2 is a reference to ival.
+(d) This is ivalid, bacause we cannot change the value of a reference, therefor we must assign it reference something at the declaration.
