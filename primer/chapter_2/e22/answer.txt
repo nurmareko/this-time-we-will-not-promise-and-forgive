@@ -1,0 +1,8 @@
+Assuming p is a pointer to int, explain the following code:
+if (p) // ...
+if (*p) // ...
+
+answer:
+  The first line check if p point to an object or not, if yes then we get inside the if body, becasue the value of a pointer is either an address or zero if it not pointing to anything.
+
+  The second line use the value of the object that pointer p is poiting at to decide the truthy of the expression.
