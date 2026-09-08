@@ -10,7 +10,7 @@ double d = 0, &r2 = d;
 (d) r1 = d;
 
 answer:
-(a) This is invalid, r2 is a reference, therefore we cannot re-assign any value to it.
-(b) for the same reason as (a).
+(a) This is valid, we reasigning the value of an object that is referenced by r2, that is the value of d to 3.14159.
+(b) This is valid, its assign the value of d with the value of i through their references that is r2 and r1.
 (c) this is valid, the value of i is now the value of object which r2 is referencing, which is the value of d, that is 0.
-(d) for the same reason as (a).
+(d) This is valid, its reasign the value of i through its refernce that is r1 with the value of d.

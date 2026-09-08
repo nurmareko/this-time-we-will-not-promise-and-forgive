@@ -1,0 +1,10 @@
+What does the following code print?
+
+int i, &ri = i;
+i = 5;
+ri = 10;
+std::cout << i << " " << ri << std::endl;
+
+answer:
+  It will print the value of i and ri (is i), wich is: 10 10.
+  because ri is reference of i, assigning new value of 10 through ri is samething as reassigning the value of i, which became 10.
