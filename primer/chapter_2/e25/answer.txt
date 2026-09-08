@@ -1,0 +1,10 @@
+Determine the types and values of each of the following variables.
+
+(a) int* ip, i, &r = i;
+(b) int i, *ip = 0;
+(c) int* ip, ip2;
+
+answer:
+(a) integer pointer, integer integer reference
+(b) integer, integer pointer
+(c) integer pointer, integer
