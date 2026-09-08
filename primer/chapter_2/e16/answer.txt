@@ -1,0 +1,16 @@
+Which, if any, of the following assignments are invalid? If they are
+valid, explain what they do.
+
+int i = 0, &r1 = i;
+double d = 0, &r2 = d;
+
+(a) r2 = 3.14159;
+(b) r2 = r1;
+(c) i = r2;
+(d) r1 = d;
+
+answer:
+(a) This is invalid, r2 is a reference, therefore we cannot re-assign any value to it.
+(b) for the same reason as (a).
+(c) this is valid, the value of i is now the value of object which r2 is referencing, which is the value of d, that is 0.
+(d) for the same reason as (a).
