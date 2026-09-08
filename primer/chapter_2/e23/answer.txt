@@ -1,0 +1,5 @@
+Given a pointer p, can you determine whether p points to a valid object?
+If so, how? If not, why not?
+
+answer:
+  By checking is the value of p is zero or nullptr.
