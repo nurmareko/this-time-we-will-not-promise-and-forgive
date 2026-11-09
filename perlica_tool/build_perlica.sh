@@ -29,7 +29,7 @@ for airport in husein supadio; do
   for app in driver user; do
     case "$app" in
       driver) project=driver; basename=gofly-driver ;;
-      user) project=passenger; basename=gofly ;;
+      user) project=passenger; basename=gofly-user ;;
     esac
 
     for mode in debug release; do
